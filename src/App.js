@@ -1,5 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
+// ============================================
+// 🎯 UPDATE THESE VALUES DIRECTLY
+// ============================================
+const CONFIG = {
+  // Your Formspree form ID (from formspree.io)
+  FORMSPREE_ID: 'mblnvpkr',
+  
+  // Current amount raised - UPDATE THIS when you receive donations!
+  AMOUNT_RAISED: 0,
+  
+  // Fundraising goal
+  GOAL: 2000,
+};
+// ============================================
+
 // Warm Central American inspired color palette
 const colors = {
   terracotta: '#C4694E',
@@ -16,14 +31,7 @@ const colors = {
 };
 
 const NicaraguaMissionDashboard = () => {
-  // Set your current amount raised here, or use environment variable
-  // Safe for both Create React App and plain browser environments
-  const INITIAL_AMOUNT_RAISED = parseInt(
-    (typeof process !== 'undefined' && process.env?.REACT_APP_AMOUNT_RAISED) || '0', 
-    10
-  );
-  
-  const [raised, setRaised] = useState(INITIAL_AMOUNT_RAISED);
+  const [raised, setRaised] = useState(CONFIG.AMOUNT_RAISED);
   const [expandedEntries, setExpandedEntries] = useState({ entry1: true });
   const [animatedProgress, setAnimatedProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -35,7 +43,7 @@ const NicaraguaMissionDashboard = () => {
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [subscribeStatus, setSubscribeStatus] = useState(''); // 'loading', 'success', 'error'
   const [subscribeMessage, setSubscribeMessage] = useState('');
-  const goal = 2000;
+  const goal = CONFIG.GOAL;
 
   // Storage helper - uses window.storage in Claude artifacts, localStorage elsewhere
   const storage = {
@@ -107,11 +115,7 @@ const NicaraguaMissionDashboard = () => {
     setSubscribeMessage('');
     
     try {
-      // Using Formspree as default - easy to set up
-      // Get your form ID from https://formspree.io
-      const FORMSPREE_ID = (typeof process !== 'undefined' && process.env?.REACT_APP_FORMSPREE_ID) || 'YOUR_FORM_ID';
-      
-      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const response = await fetch(`https://formspree.io/f/${CONFIG.FORMSPREE_ID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -381,11 +385,12 @@ const NicaraguaMissionDashboard = () => {
               }}>
                 <div style={{
                   height: '100%',
-                  width: `${animatedProgress}%`,
+                  width: `${Math.max(animatedProgress, 0)}%`,
                   background: `linear-gradient(90deg, ${colors.terracotta} 0%, ${colors.sunYellow} 100%)`,
                   borderRadius: '50px',
                   transition: 'width 0.3s ease-out',
                   position: 'relative',
+                  minWidth: animatedProgress > 0 ? '20px' : '0',
                 }}>
                   <div style={{
                     position: 'absolute',
@@ -1743,8 +1748,9 @@ const NicaraguaMissionDashboard = () => {
               }}>
                 <div style={{ 
                   display: 'flex', 
-                  flexDirection: window.innerWidth > 600 ? 'row' : 'column',
-                  gap: '12px' 
+                  flexDirection: 'row',
+                  gap: '12px',
+                  flexWrap: 'wrap',
                 }}>
                   <input
                     type="email"
@@ -1756,6 +1762,7 @@ const NicaraguaMissionDashboard = () => {
                     disabled={subscribeStatus === 'loading' || subscribeStatus === 'success'}
                     style={{
                       flex: 1,
+                      minWidth: '200px',
                       padding: '16px 20px',
                       border: `2px solid ${subscribeStatus === 'error' ? colors.terracotta : colors.softSand}`,
                       borderRadius: '50px',
