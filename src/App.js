@@ -1,4 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, addDoc, getDocs, orderBy, query } from 'firebase/firestore';
+
+// ============================================
+// 🔥 FIREBASE CONFIGURATION
+// ============================================
+const firebaseConfig = {
+  apiKey: "AIzaSyBCEzrVt-bOulU8z0pz99CmAnfNIF-96_c",
+  authDomain: "nicaragua-mission.firebaseapp.com",
+  projectId: "nicaragua-mission",
+  storageBucket: "nicaragua-mission.firebasestorage.app",
+  messagingSenderId: "82891897684",
+  appId: "1:82891897684:web:0bc824bdfb83acc450a6c1"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // ============================================
 // 🎯 UPDATE THESE VALUES DIRECTLY
@@ -40,68 +58,39 @@ const NicaraguaMissionDashboard = () => {
   const [newPrayerNote, setNewPrayerNote] = useState('');
   const [isLoadingPrayers, setIsLoadingPrayers] = useState(true);
   const [isSubmittingPrayer, setIsSubmittingPrayer] = useState(false);
+  const [prayerError, setPrayerError] = useState('');
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [subscribeStatus, setSubscribeStatus] = useState(''); // 'loading', 'success', 'error'
   const [subscribeMessage, setSubscribeMessage] = useState('');
   const goal = CONFIG.GOAL;
 
-  // Storage helper - uses window.storage in Claude artifacts, localStorage elsewhere
-  const storage = {
-    async get(key) {
-      try {
-        if (window.storage) {
-          const result = await window.storage.get(key, true);
-          return result?.value ? JSON.parse(result.value) : [];
-        } else {
-          const data = localStorage.getItem(key);
-          return data ? JSON.parse(data) : [];
-        }
-      } catch {
-        return [];
-      }
-    },
-    async set(key, value) {
-      try {
-        if (window.storage) {
-          await window.storage.set(key, JSON.stringify(value), true);
-        } else {
-          localStorage.setItem(key, JSON.stringify(value));
-        }
-        return true;
-      } catch {
-        return false;
-      }
-    }
-  };
-
-  // Load prayer commitments from storage
-  const loadPrayerCommitments = async () => {
-    setIsLoadingPrayers(true);
-    const data = await storage.get('nicaragua-prayer-commitments');
-    setPrayerCommitments(data);
-    setIsLoadingPrayers(false);
-  };
-
-  // Save a new prayer commitment
+  // Save a new prayer commitment to Firebase
   const submitPrayerCommitment = async () => {
     if (!newPrayerName.trim()) return;
     
     setIsSubmittingPrayer(true);
-    const newCommitment = {
-      id: Date.now(),
-      name: newPrayerName.trim(),
-      note: newPrayerNote.trim(),
-      date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-    };
+    setPrayerError('');
     
-    const updatedCommitments = [...prayerCommitments, newCommitment];
-    
-    const success = await storage.set('nicaragua-prayer-commitments', updatedCommitments);
-    if (success) {
-      setPrayerCommitments(updatedCommitments);
+    try {
+      const newCommitment = {
+        name: newPrayerName.trim(),
+        note: newPrayerNote.trim(),
+        date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        timestamp: Date.now()
+      };
+      
+      const docRef = await addDoc(collection(db, 'prayers'), newCommitment);
+      
+      // Add to local state with the Firebase doc ID
+      setPrayerCommitments(prev => [{ id: docRef.id, ...newCommitment }, ...prev]);
       setNewPrayerName('');
       setNewPrayerNote('');
+    } catch (error) {
+      console.error('Error adding prayer:', error);
+      setPrayerError('Unable to add prayer. Please try again.');
+      setTimeout(() => setPrayerError(''), 5000);
     }
+    
     setIsSubmittingPrayer(false);
   };
 
@@ -153,6 +142,35 @@ const NicaraguaMissionDashboard = () => {
 
   useEffect(() => {
     // Load prayer commitments on mount
+    const loadPrayerCommitments = async () => {
+      setIsLoadingPrayers(true);
+      try {
+        const prayersQuery = query(collection(db, 'prayers'), orderBy('timestamp', 'desc'));
+        const querySnapshot = await getDocs(prayersQuery);
+        const prayers = [];
+        querySnapshot.forEach((doc) => {
+          prayers.push({ id: doc.id, ...doc.data() });
+        });
+        setPrayerCommitments(prayers);
+      } catch (error) {
+        console.error('Error loading prayers:', error);
+        // If orderBy fails (no index), try without ordering
+        try {
+          const fallbackSnapshot = await getDocs(collection(db, 'prayers'));
+          const prayers = [];
+          fallbackSnapshot.forEach((doc) => {
+            prayers.push({ id: doc.id, ...doc.data() });
+          });
+          // Sort client-side as fallback
+          prayers.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+          setPrayerCommitments(prayers);
+        } catch (fallbackError) {
+          console.error('Error loading prayers (fallback):', fallbackError);
+        }
+      }
+      setIsLoadingPrayers(false);
+    };
+    
     loadPrayerCommitments();
   }, []);
 
@@ -936,16 +954,15 @@ const NicaraguaMissionDashboard = () => {
                 <div style={{
                   display: 'inline-block',
                   padding: '4px 12px',
-                  backgroundColor: `${colors.softSand}`,
+                  backgroundColor: `${colors.terracotta}15`,
                   borderRadius: '50px',
                   marginBottom: '10px',
                 }}>
                   <span style={{
                     fontSize: '0.8rem',
                     fontWeight: 500,
-                    color: colors.earthBrown,
-                    opacity: 0.7,
-                  }}>December 7-14, 2025 • Coming Soon</span>
+                    color: colors.terracotta,
+                  }}>December 7-14, 2025</span>
                 </div>
                 <h3 style={{
                   fontFamily: '"Playfair Display", Georgia, serif',
@@ -968,39 +985,99 @@ const NicaraguaMissionDashboard = () => {
                 padding: '0 30px 35px',
                 animation: 'fadeIn 0.4s ease',
               }}>
-                <p style={{
-                  fontStyle: 'italic',
-                  color: colors.earthBrown,
-                  opacity: 0.9,
-                  lineHeight: 1.8,
-                }}>
-                  This week, I'll be diving deep into training with the Nourish team, learning about their 
-                  mission, methods, and the communities we'll serve. Stay tuned for reflections on what it 
-                  means to serve with intentionality and cultural humility.
-                </p>
-                
                 <div style={{
-                  backgroundColor: colors.cream,
-                  borderRadius: '12px',
-                  padding: '20px',
-                  marginTop: '20px',
+                  fontSize: '1.05rem',
+                  lineHeight: 1.85,
+                  color: colors.earthBrown,
                 }}>
-                  <p style={{
-                    fontWeight: 600,
-                    color: colors.forestGreen,
-                    margin: '0 0 12px',
-                  }}>Topics I'll be exploring:</p>
-                  <ul style={{
-                    margin: 0,
-                    paddingLeft: '20px',
-                    color: colors.earthBrown,
-                    lineHeight: 1.8,
+                  <p>
+                    My home church, <strong style={{ color: colors.forestGreen }}>Aletheia</strong>, has been partnering with <strong style={{ color: colors.forestGreen }}>Nourish</strong> (formerly ORPHANetwork) since 2016. These last couple of weeks, our team got to meet virtually with Katie and David from Nourish International to learn about the history and culture of Nourish.
+                  </p>
+                  
+                  <p>
+                    Katie, who is US-based, taught us about how ORPHANetwork was started and how it was able to continue its programming—and even grow—through Nicaragua's redefinition of orphanages. Nourish partners with <strong>150 churches globally</strong> and collaborates with <strong>110 churches</strong> across various regions of Nicaragua. Through these churches, Nourish has helped provide food, clean water, medical care, education, life skills, and gospel ministry. Their work has impacted upwards of <strong style={{ color: colors.terracotta }}>20,000 children</strong>.
+                  </p>
+                  
+                  <p>
+                    With David, we learned a lot about the socioeconomic landscape of the country and what day-to-day life is like for the people living in Managua, Matagalpa, and a rural community 45 minutes away from Managua. These communities are served by the three local churches Aletheia partners with. While we're there in February, there will be a bit more work available as it will be <strong>coffee harvesting season</strong>. Other forms of income usually come through textile work and recycling bottles and cans found in the landfill.
+                  </p>
+
+                  {/* Block Quote - Why Churches */}
+                  <div style={{
+                    backgroundColor: colors.cream,
+                    borderLeft: `4px solid ${colors.forestGreen}`,
+                    padding: '20px 25px',
+                    margin: '25px 0',
+                    borderRadius: '0 12px 12px 0',
                   }}>
-                    <li>The mission and vision of Nourish</li>
-                    <li>Understanding the Nicaraguan context</li>
-                    <li>Team preparation and spiritual formation</li>
-                    <li>What I'm learning about cross-cultural ministry</li>
-                  </ul>
+                    <p style={{
+                      fontFamily: '"Playfair Display", Georgia, serif',
+                      fontSize: '1.15rem',
+                      fontStyle: 'italic',
+                      color: colors.forestGreen,
+                      margin: '0 0 12px',
+                    }}>
+                      "Why churches? Why not partner with local schools?"
+                    </p>
+                    <p style={{ margin: 0 }}>
+                      Simple answer: <strong>Some communities don't have schools. But they have churches.</strong> The people of Nicaragua are truly bound and sustained by divine hope and love.
+                    </p>
+                  </div>
+
+                  <h4 style={{
+                    fontFamily: '"Playfair Display", Georgia, serif',
+                    fontSize: '1.15rem',
+                    color: colors.forestGreen,
+                    margin: '30px 0 15px',
+                  }}>What We'll Be Doing</h4>
+                  
+                  <p>
+                    And God truly provides—we went over what programming looks like in a day and drew out a rough sketch of who and how we will be serving for the week.
+                  </p>
+                  
+                  <p>
+                    We'll be visiting <strong style={{ color: colors.forestGreen }}>four pastors</strong> and encouraging them in the work they're already doing in their communities: <strong>Pastor Ochoa</strong> in Managua, <strong>Pastores Juan y José</strong> en Matagalpa, and <strong>Pastora Aluz Maria</strong>. This includes going to the market in the mornings and paying house visits to single mothers, where we gift them groceries, chat with them, and pray with them.
+                  </p>
+                  
+                  <p>
+                    In the afternoons, we'll participate in feeding children and curating trauma-informed, child-centered activities. David gave us a cheat code: <em>some children haven't yet seen a puppet show</em>. This generated a lot of excitement for our group!
+                  </p>
+                  
+                  <p>
+                    We'll also plan activities for the women—like bracelet making, makeup application, and other self-affirming activities.
+                  </p>
+                  
+                  <p>
+                    And the day before we leave happens to be a Sunday! So we've been invited to co-pastor with Pastora Aluz Maria and throw a celebration for the children afterwards. <strong style={{ color: colors.terracotta }}>(We get to go piñata shopping!)</strong>
+                  </p>
+                  
+                  <p>
+                    In total, we'll be serving about <strong style={{ color: colors.terracotta }}>300 children</strong> and <strong style={{ color: colors.terracotta }}>50 women</strong>.
+                  </p>
+                  
+                  <p>
+                    David highlighted how important it is to validate the work the pastors are doing—especially the female pastor we'll be visiting—so that the surrounding community feels safe to come and engage.
+                  </p>
+
+                  {/* Block Quote - Exciting News */}
+                  <div style={{
+                    backgroundColor: `${colors.sunYellow}20`,
+                    borderLeft: `4px solid ${colors.sunYellow}`,
+                    padding: '20px 25px',
+                    margin: '25px 0',
+                    borderRadius: '0 12px 12px 0',
+                  }}>
+                    <p style={{
+                      fontWeight: 600,
+                      color: colors.forestGreen,
+                      margin: '0 0 8px',
+                      fontSize: '1rem',
+                    }}>✨ Exciting News!</p>
+                    <p style={{ margin: 0 }}>
+                      They plan to pilot a <strong>workforce development program</strong> for women to gain the skills needed for work available in their communities.
+                    </p>
+                  </div>
+
                 </div>
               </div>
             )}
@@ -1966,6 +2043,7 @@ const NicaraguaMissionDashboard = () => {
                   placeholder="Your name"
                   value={newPrayerName}
                   onChange={(e) => setNewPrayerName(e.target.value)}
+                  maxLength={50}
                   style={{
                     padding: '14px 18px',
                     border: `2px solid ${colors.softSand}`,
@@ -1985,6 +2063,7 @@ const NicaraguaMissionDashboard = () => {
                   placeholder="Leave an encouraging note (optional)"
                   value={newPrayerNote}
                   onChange={(e) => setNewPrayerNote(e.target.value)}
+                  maxLength={200}
                   style={{
                     padding: '14px 18px',
                     border: `2px solid ${colors.softSand}`,
@@ -2015,12 +2094,12 @@ const NicaraguaMissionDashboard = () => {
                   fontSize: '1rem',
                   fontWeight: 600,
                   color: newPrayerName.trim() ? colors.warmWhite : colors.earthBrown,
-                  cursor: newPrayerName.trim() ? 'pointer' : 'not-allowed',
+                  cursor: newPrayerName.trim() && !isSubmittingPrayer ? 'pointer' : 'not-allowed',
                   transition: 'all 0.3s ease',
                   opacity: isSubmittingPrayer ? 0.7 : 1,
                 }}
                 onMouseOver={(e) => {
-                  if (newPrayerName.trim()) {
+                  if (newPrayerName.trim() && !isSubmittingPrayer) {
                     e.currentTarget.style.transform = 'translateY(-2px)';
                     e.currentTarget.style.boxShadow = `0 6px 20px ${colors.forestGreen}30`;
                   }
@@ -2032,6 +2111,22 @@ const NicaraguaMissionDashboard = () => {
               >
                 {isSubmittingPrayer ? 'Adding to Wall...' : '🙏 I Commit to Pray'}
               </button>
+              
+              {/* Error Message */}
+              {prayerError && (
+                <div style={{
+                  marginTop: '15px',
+                  padding: '12px 20px',
+                  borderRadius: '10px',
+                  backgroundColor: `${colors.terracotta}15`,
+                  color: colors.terracotta,
+                  fontSize: '0.95rem',
+                  textAlign: 'center',
+                  fontWeight: 500,
+                }}>
+                  {prayerError}
+                </div>
+              )}
             </div>
 
             {/* Prayer Wall Grid */}
@@ -2077,7 +2172,7 @@ const NicaraguaMissionDashboard = () => {
                   gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
                   gap: '20px',
                 }}>
-                  {prayerCommitments.slice().reverse().map((commitment, index) => (
+                  {prayerCommitments.map((commitment, index) => (
                     <div
                       key={commitment.id}
                       style={{
@@ -2092,6 +2187,9 @@ const NicaraguaMissionDashboard = () => {
                         }`,
                         transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                         cursor: 'default',
+                        overflow: 'hidden',
+                        wordWrap: 'break-word',
+                        overflowWrap: 'break-word',
                       }}
                       onMouseOver={(e) => {
                         e.currentTarget.style.transform = 'translateY(-3px)';
@@ -2125,7 +2223,7 @@ const NicaraguaMissionDashboard = () => {
                         }}>
                           🙏
                         </div>
-                        <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ flex: 1, minWidth: 0, overflow: 'hidden' }}>
                           <p style={{
                             fontWeight: 600,
                             color: colors.forestGreen,
@@ -2134,6 +2232,7 @@ const NicaraguaMissionDashboard = () => {
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
+                            maxWidth: '100%',
                           }}>
                             {commitment.name}
                           </p>
@@ -2149,12 +2248,14 @@ const NicaraguaMissionDashboard = () => {
                       </div>
                       {commitment.note && (
                         <p style={{
-                          margin: 0,
+                          margin: '12px 0 0 0',
                           fontSize: '0.95rem',
                           color: colors.earthBrown,
                           lineHeight: 1.6,
                           fontStyle: 'italic',
-                          paddingLeft: '52px',
+                          wordBreak: 'break-word',
+                          overflowWrap: 'break-word',
+                          hyphens: 'auto',
                         }}>
                           "{commitment.note}"
                         </p>
