@@ -26,7 +26,7 @@ const CONFIG = {
   FORMSPREE_ID: 'mblnvpkr',
   
   // Current amount raised - UPDATE THIS when you receive donations!
-  AMOUNT_RAISED: 830,
+  AMOUNT_RAISED: 1155,
   
   // Fundraising goal
   GOAL: 2000,
