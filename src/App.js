@@ -49,7 +49,7 @@ const colors = {
 };
 
 const NicaraguaMissionDashboard = () => {
-  const [raised, setRaised] = useState(CONFIG.AMOUNT_RAISED);
+  const [raised, _setRaised] = useState(CONFIG.AMOUNT_RAISED);
   const [expandedEntries, setExpandedEntries] = useState({ entry1: true });
   const [animatedProgress, setAnimatedProgress] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
