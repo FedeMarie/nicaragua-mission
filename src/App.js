@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // Updated Feb 4
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, addDoc, getDocs, orderBy, query } from 'firebase/firestore';
 
@@ -49,7 +49,6 @@ const colors = {
 };
 
 const NicaraguaMissionDashboard = () => {
-  // eslint-disable-next-line no-unused-vars
   const [raised, setRaised] = useState(CONFIG.AMOUNT_RAISED);
   const [expandedEntries, setExpandedEntries] = useState({ entry1: true });
   const [animatedProgress, setAnimatedProgress] = useState(0);
@@ -1120,7 +1119,7 @@ const NicaraguaMissionDashboard = () => {
                     fontWeight: 500,
                     color: colors.earthBrown,
                     opacity: 0.7,
-                  }}>January 11-18, 2026 • Coming Soon</span>
+                  }}>February 12, 2026 • Coming Soon</span>
                 </div>
                 <h3 style={{
                   fontFamily: '"Playfair Display", Georgia, serif',
@@ -1181,7 +1180,7 @@ const NicaraguaMissionDashboard = () => {
             )}
           </article>
 
-          {/* Entry 4: Spanish */}
+          {/* Entry 4: Learning Spanish */}
           <article id="entry4" style={{
             backgroundColor: colors.warmWhite,
             borderRadius: '20px',
@@ -1208,7 +1207,7 @@ const NicaraguaMissionDashboard = () => {
                 <div style={{
                   display: 'inline-block',
                   padding: '4px 12px',
-                  backgroundColor: `${colors.softSand}`,
+                  backgroundColor: `${colors.sunYellow}20`,
                   borderRadius: '50px',
                   marginBottom: '10px',
                 }}>
@@ -1216,8 +1215,7 @@ const NicaraguaMissionDashboard = () => {
                     fontSize: '0.8rem',
                     fontWeight: 500,
                     color: colors.earthBrown,
-                    opacity: 0.7,
-                  }}>January 25, 2026 • Coming Soon</span>
+                  }}>February 2026</span>
                 </div>
                 <h3 style={{
                   fontFamily: '"Playfair Display", Georgia, serif',
@@ -1225,7 +1223,7 @@ const NicaraguaMissionDashboard = () => {
                   fontWeight: 600,
                   color: colors.forestGreen,
                   margin: 0,
-                }}>Aprendiendo Español: Verses & Songs</h3>
+                }}>Español: Prayer, Phrases & Worship</h3>
               </div>
               <span style={{
                 fontSize: '1.5rem',
@@ -1240,45 +1238,392 @@ const NicaraguaMissionDashboard = () => {
                 padding: '0 30px 35px',
                 animation: 'fadeIn 0.4s ease',
               }}>
-                <p style={{
-                  fontStyle: 'italic',
-                  color: colors.earthBrown,
-                  opacity: 0.9,
-                  lineHeight: 1.8,
-                }}>
-                  An update on my Spanish language journey! I'll share some of the Bible verses and 
-                  worship songs I've been learning in Spanish as I prepare to connect heart-to-heart 
-                  with the community.
-                </p>
-                
                 <div style={{
-                  backgroundColor: colors.cream,
-                  borderRadius: '12px',
-                  padding: '20px',
-                  marginTop: '20px',
+                  fontSize: '1.05rem',
+                  lineHeight: 1.85,
+                  color: colors.earthBrown,
                 }}>
-                  <p style={{
-                    fontWeight: 600,
-                    color: colors.forestGreen,
-                    margin: '0 0 12px',
-                  }}>Topics I'll be sharing:</p>
-                  <ul style={{
-                    margin: 0,
-                    paddingLeft: '20px',
-                    color: colors.earthBrown,
-                    lineHeight: 1.8,
+                  <p style={{ marginTop: 0 }}>
+                    We've been learning some Spanish, and I'm excited to start speaking it again! A fun fact about me is that I'm conversational in Spanish—and I'm almost shy to admit that sometimes even more so than in Kreyòl. 😅 I'm just in love with the language and the warmth of the people who speak it.
+                  </p>
+                  
+                  <p>
+                    Naturally, I love live worship sets in Spanish, and I actually have a few Bible verses with translations I prefer in Spanish, but I've never actually prayed in Spanish. It was cool to practice phrases that would be helpful in prayer during our training—also keeping in mind that the Holy Spirit will lead the moment, heal, and restore regardless of any appearance of a language barrier. A God not limited by our intellect, who also displays His affection for us through the joy we get when connecting with others through language. What a God!
+                  </p>
+
+                  {/* Blessing Phrases Block */}
+                  <div style={{
+                    backgroundColor: `${colors.sunYellow}15`,
+                    borderLeft: `4px solid ${colors.sunYellow}`,
+                    padding: '20px 25px',
+                    margin: '25px 0',
+                    borderRadius: '0 12px 12px 0',
                   }}>
-                    <li>My Spanish learning progress</li>
-                    <li>Favorite Bible verses in Spanish (with translations)</li>
-                    <li>Worship songs I'm learning</li>
-                    <li>The joy and challenge of language learning for ministry</li>
-                  </ul>
+                    <h4 style={{
+                      fontFamily: '"Playfair Display", Georgia, serif',
+                      fontSize: '1.1rem',
+                      color: colors.forestGreen,
+                      margin: '0 0 12px',
+                    }}>Phrases to Bless Someone in Spanish</h4>
+                    <p style={{ 
+                      margin: 0,
+                      fontStyle: 'italic',
+                      color: colors.forestGreen,
+                    }}>
+                      <em>Señor dale... la fe, la paz, el gozo, el apoyo, la dirección, la protección, y la salud.</em>
+                    </p>
+                    <p style={{ 
+                      margin: '8px 0 0',
+                      fontSize: '0.95rem',
+                    }}>
+                      Lord, give him/her faith, peace, joy, support, guidance, protection, and health.
+                    </p>
+                    <p style={{ 
+                      margin: '15px 0 0',
+                      fontSize: '0.95rem',
+                    }}>
+                      Common greetings: <strong>"Bendiciones"</strong> and <strong>"Que Dios te bendiga"</strong> (when leaving).
+                    </p>
+                  </div>
+
+                  <p>
+                    We were even given a resource on how to teach children to do a five-finger prayer: for those I love, for those who teach me, for leaders around the world, for the sick, and for myself.
+                  </p>
+
+                  {/* Five Finger Prayer Image */}
+                  <div style={{
+                    textAlign: 'center',
+                    margin: '30px 0',
+                  }}>
+                    <img 
+                      src="/five-finger-prayer.png" 
+                      alt="Five Finger Prayer - Te pido Dios: Por los que amo, Por los que me enseñan, Por los líderes, Por los enfermos, Por mi mismo/misma"
+                      style={{
+                        maxWidth: '100%',
+                        width: '500px',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 15px rgba(92, 64, 51, 0.1)',
+                      }}
+                    />
+                    <p style={{
+                      fontSize: '0.85rem',
+                      color: colors.earthBrown,
+                      opacity: 0.7,
+                      marginTop: '10px',
+                      fontStyle: 'italic',
+                    }}>
+                      Five Finger Prayer guide from SpanishPlayground.net
+                    </p>
+                  </div>
+
+                  <h4 style={{
+                    fontFamily: '"Playfair Display", Georgia, serif',
+                    fontSize: '1.2rem',
+                    color: colors.forestGreen,
+                    marginTop: '35px',
+                    marginBottom: '20px',
+                  }}>
+                    🎵 My Favorite Spanish Worship Songs
+                  </h4>
+
+                  {/* Majo y Dan Section */}
+                  <p style={{ marginBottom: '15px' }}>
+                    <strong style={{ color: colors.forestGreen }}>Majo y Dan</strong> — I love so many of their songs!
+                  </p>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                    gap: '15px',
+                    marginBottom: '25px',
+                  }}>
+                    <a 
+                      href="https://www.youtube.com/watch?v=kWOdzYOdoc0" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        textDecoration: 'none',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        boxShadow: '0 2px 10px rgba(92, 64, 51, 0.1)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(92, 64, 51, 0.15)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(92, 64, 51, 0.1)';
+                      }}
+                    >
+                      <img 
+                        src="https://img.youtube.com/vi/kWOdzYOdoc0/hqdefault.jpg" 
+                        alt="No Me Pidan - Majo y Dan"
+                        style={{ width: '100%', display: 'block' }}
+                      />
+                      <div style={{
+                        padding: '12px',
+                        backgroundColor: colors.cream,
+                      }}>
+                        <p style={{
+                          margin: 0,
+                          fontWeight: 600,
+                          color: colors.forestGreen,
+                          fontSize: '0.95rem',
+                        }}>No Me Pidan</p>
+                      </div>
+                    </a>
+                    
+                    <a 
+                      href="https://www.youtube.com/watch?v=VPKKh9Aikbo" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        textDecoration: 'none',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        boxShadow: '0 2px 10px rgba(92, 64, 51, 0.1)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(92, 64, 51, 0.15)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(92, 64, 51, 0.1)';
+                      }}
+                    >
+                      <img 
+                        src="https://img.youtube.com/vi/VPKKh9Aikbo/hqdefault.jpg" 
+                        alt="Tú Proveerás - Majo y Dan"
+                        style={{ width: '100%', display: 'block' }}
+                      />
+                      <div style={{
+                        padding: '12px',
+                        backgroundColor: colors.cream,
+                      }}>
+                        <p style={{
+                          margin: 0,
+                          fontWeight: 600,
+                          color: colors.forestGreen,
+                          fontSize: '0.95rem',
+                        }}>Tú Proveerás</p>
+                      </div>
+                    </a>
+                  </div>
+
+                  {/* Kairo Worship Section */}
+                  <p style={{ marginBottom: '15px' }}>
+                    <strong style={{ color: colors.forestGreen }}>Kairo Worship</strong> — Actually, every song of theirs!
+                  </p>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                    gap: '15px',
+                    marginBottom: '25px',
+                  }}>
+                    <a 
+                      href="https://www.youtube.com/watch?v=VGKSLzCJWoY" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        textDecoration: 'none',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        boxShadow: '0 2px 10px rgba(92, 64, 51, 0.1)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(92, 64, 51, 0.15)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(92, 64, 51, 0.1)';
+                      }}
+                    >
+                      <img 
+                        src="https://img.youtube.com/vi/VGKSLzCJWoY/hqdefault.jpg" 
+                        alt="Barro - Kairo Worship"
+                        style={{ width: '100%', display: 'block' }}
+                      />
+                      <div style={{
+                        padding: '12px',
+                        backgroundColor: colors.cream,
+                      }}>
+                        <p style={{
+                          margin: 0,
+                          fontWeight: 600,
+                          color: colors.forestGreen,
+                          fontSize: '0.95rem',
+                        }}>Barro</p>
+                      </div>
+                    </a>
+                  </div>
+
+                  {/* More Favorites Section */}
+                  <p style={{ marginBottom: '15px' }}>
+                    <strong style={{ color: colors.forestGreen }}>More favorites:</strong>
+                  </p>
+                  
+                  <div style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                    gap: '15px',
+                    marginBottom: '25px',
+                  }}>
+                    <a 
+                      href="https://www.youtube.com/watch?v=9_PjXTDG3go" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        textDecoration: 'none',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        boxShadow: '0 2px 10px rgba(92, 64, 51, 0.1)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(92, 64, 51, 0.15)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(92, 64, 51, 0.1)';
+                      }}
+                    >
+                      <img 
+                        src="https://img.youtube.com/vi/9_PjXTDG3go/hqdefault.jpg" 
+                        alt="A song that makes me cry"
+                        style={{ width: '100%', display: 'block' }}
+                      />
+                      <div style={{
+                        padding: '12px',
+                        backgroundColor: colors.cream,
+                      }}>
+                        <p style={{
+                          margin: 0,
+                          fontWeight: 600,
+                          color: colors.forestGreen,
+                          fontSize: '0.95rem',
+                        }}>🥹 One day I'll sing along without crying</p>
+                      </div>
+                    </a>
+
+                    <a 
+                      href="https://www.youtube.com/watch?v=3uUJCvdbH3k" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        textDecoration: 'none',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        boxShadow: '0 2px 10px rgba(92, 64, 51, 0.1)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(92, 64, 51, 0.15)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(92, 64, 51, 0.1)';
+                      }}
+                    >
+                      <img 
+                        src="https://img.youtube.com/vi/3uUJCvdbH3k/hqdefault.jpg" 
+                        alt="A song I never tire of"
+                        style={{ width: '100%', display: 'block' }}
+                      />
+                      <div style={{
+                        padding: '12px',
+                        backgroundColor: colors.cream,
+                      }}>
+                        <p style={{
+                          margin: 0,
+                          fontWeight: 600,
+                          color: colors.forestGreen,
+                          fontSize: '0.95rem',
+                        }}>A song I will NEVER tire of</p>
+                      </div>
+                    </a>
+
+                    <a 
+                      href="https://www.youtube.com/watch?v=4GK_PwYnrEs" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'block',
+                        textDecoration: 'none',
+                        borderRadius: '12px',
+                        overflow: 'hidden',
+                        boxShadow: '0 2px 10px rgba(92, 64, 51, 0.1)',
+                        transition: 'transform 0.3s ease, box-shadow 0.3s ease',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-3px)';
+                        e.currentTarget.style.boxShadow = '0 4px 15px rgba(92, 64, 51, 0.15)';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = '0 2px 10px rgba(92, 64, 51, 0.1)';
+                      }}
+                    >
+                      <img 
+                        src="https://img.youtube.com/vi/4GK_PwYnrEs/hqdefault.jpg" 
+                        alt="A song stuck in my head"
+                        style={{ width: '100%', display: 'block' }}
+                      />
+                      <div style={{
+                        padding: '12px',
+                        backgroundColor: colors.cream,
+                      }}>
+                        <p style={{
+                          margin: 0,
+                          fontWeight: 600,
+                          color: colors.forestGreen,
+                          fontSize: '0.95rem',
+                        }}>Gets stuck in my head weekly 🎶</p>
+                      </div>
+                    </a>
+                  </div>
+
+                  {/* Dreaming Spanish Resource */}
+                  <div style={{
+                    backgroundColor: colors.cream,
+                    borderLeft: `4px solid ${colors.forestGreen}`,
+                    padding: '20px 25px',
+                    margin: '30px 0 0',
+                    borderRadius: '0 12px 12px 0',
+                  }}>
+                    <p style={{ margin: 0 }}>
+                      And lastly, if you'd like to begin your own Spanish-speaking journey, <a 
+                        href="https://www.dreaming.com/spanish" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{
+                          color: colors.terracotta,
+                          fontWeight: 600,
+                          textDecoration: 'underline',
+                        }}
+                      >Dreaming Spanish</a> has some genuinely fun and engaging content for every level.
+                    </p>
+                  </div>
+
                 </div>
               </div>
             )}
           </article>
 
-          {/* Entry 5: Prayer */}
+          {/* Entry 5: A Call to Prayer */}
           <article id="entry5" style={{
             backgroundColor: colors.warmWhite,
             borderRadius: '20px',
@@ -1305,16 +1650,15 @@ const NicaraguaMissionDashboard = () => {
                 <div style={{
                   display: 'inline-block',
                   padding: '4px 12px',
-                  backgroundColor: `${colors.softSand}`,
+                  backgroundColor: `${colors.forestGreen}15`,
                   borderRadius: '50px',
                   marginBottom: '10px',
                 }}>
                   <span style={{
                     fontSize: '0.8rem',
                     fontWeight: 500,
-                    color: colors.earthBrown,
-                    opacity: 0.7,
-                  }}>February 1, 2026 • Coming Soon</span>
+                    color: colors.forestGreen,
+                  }}>February 5, 2026</span>
                 </div>
                 <h3 style={{
                   fontFamily: '"Playfair Display", Georgia, serif',
@@ -1337,40 +1681,119 @@ const NicaraguaMissionDashboard = () => {
                 padding: '0 30px 35px',
                 animation: 'fadeIn 0.4s ease',
               }}>
-                <p style={{
-                  fontStyle: 'italic',
-                  color: colors.earthBrown,
-                  opacity: 0.9,
-                  lineHeight: 1.8,
-                }}>
-                  With just two weeks until departure, I'm inviting you into intentional, focused 
-                  prayer for this trip. Here are specific ways you can lift up our team, the community 
-                  in Nicaragua, and the work God is doing.
-                </p>
-                
                 <div style={{
-                  backgroundColor: colors.cream,
-                  borderRadius: '12px',
-                  padding: '20px',
-                  marginTop: '20px',
+                  fontSize: '1.05rem',
+                  lineHeight: 1.85,
+                  color: colors.earthBrown,
                 }}>
-                  <p style={{
-                    fontWeight: 600,
-                    color: colors.forestGreen,
-                    margin: '0 0 12px',
-                  }}>Prayer focuses:</p>
-                  <ul style={{
-                    margin: 0,
-                    paddingLeft: '20px',
-                    color: colors.earthBrown,
-                    lineHeight: 1.8,
+                  <p style={{ marginTop: 0 }}>
+                    This week we are fasting and praying intentionally for this trip. Please join us in praying for the team, the nation of Nicaragua and its leaders, and the people.
+                  </p>
+                  
+                  {/* Prayer Wall CTA */}
+                  <div style={{
+                    backgroundColor: `${colors.forestGreen}10`,
+                    borderRadius: '12px',
+                    padding: '20px 25px',
+                    margin: '25px 0',
+                    textAlign: 'center',
                   }}>
-                    <li>The team's preparation and unity</li>
-                    <li>Safe travels</li>
-                    <li>The children and mothers we'll serve</li>
-                    <li>Open hearts and meaningful connections</li>
-                    <li>Long-term impact beyond our visit</li>
-                  </ul>
+                    <p style={{ margin: '0 0 15px', fontWeight: 500 }}>
+                      🙏 Want to encourage the team?
+                    </p>
+                    <button
+                      onClick={() => document.getElementById('prayer-wall')?.scrollIntoView({ behavior: 'smooth' })}
+                      style={{
+                        padding: '12px 30px',
+                        background: `linear-gradient(135deg, ${colors.forestGreen} 0%, ${colors.forestGreenLight} 100%)`,
+                        border: 'none',
+                        borderRadius: '50px',
+                        fontFamily: '"Source Sans 3", sans-serif',
+                        fontSize: '1rem',
+                        fontWeight: 600,
+                        color: colors.warmWhite,
+                        cursor: 'pointer',
+                        transition: 'all 0.3s ease',
+                        boxShadow: `0 4px 15px ${colors.forestGreen}30`,
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.transform = 'translateY(-2px)';
+                        e.currentTarget.style.boxShadow = `0 6px 20px ${colors.forestGreen}40`;
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.transform = 'translateY(0)';
+                        e.currentTarget.style.boxShadow = `0 4px 15px ${colors.forestGreen}30`;
+                      }}
+                    >
+                      Add a Prayer to the Wall
+                    </button>
+                  </div>
+
+                  <h4 style={{
+                    fontFamily: '"Playfair Display", Georgia, serif',
+                    fontSize: '1.15rem',
+                    color: colors.forestGreen,
+                    margin: '30px 0 20px',
+                  }}>Specific Prayer Points</h4>
+
+                  {/* Prayer Point 1 */}
+                  <div style={{
+                    backgroundColor: colors.cream,
+                    borderLeft: `4px solid ${colors.sunYellow}`,
+                    padding: '20px 25px',
+                    margin: '0 0 20px',
+                    borderRadius: '0 12px 12px 0',
+                  }}>
+                    <p style={{ margin: 0 }}>
+                      That our weaknesses and strengths would <strong>complement one another</strong>. That we grow in love—both before and during the trip—for our brothers and sisters in a way that embodies sacrificial love and what God intended for His Church.
+                    </p>
+                  </div>
+
+                  {/* Prayer Point 2 */}
+                  <div style={{
+                    backgroundColor: colors.cream,
+                    borderLeft: `4px solid ${colors.terracotta}`,
+                    padding: '20px 25px',
+                    margin: '0 0 20px',
+                    borderRadius: '0 12px 12px 0',
+                  }}>
+                    <p style={{ margin: 0 }}>
+                      That we go with <strong>humility</strong>. We are not saviors. We are witnesses. We go as people who have encountered Jesus in our own brokenness and have found life in His name. We go to share—not a program or a promise of ease—but the <strong>living hope of Christ</strong>.
+                    </p>
+                  </div>
+
+                  {/* Prayer Point 3 */}
+                  <div style={{
+                    backgroundColor: colors.cream,
+                    borderLeft: `4px solid ${colors.forestGreen}`,
+                    padding: '20px 25px',
+                    margin: '0 0 20px',
+                    borderRadius: '0 12px 12px 0',
+                  }}>
+                    <p style={{ margin: 0 }}>
+                      That God would be <strong>faithful to meet each and every one of us</strong> right where we are with an abundance of grace, mercy, and protection.
+                    </p>
+                  </div>
+
+                  {/* Closing */}
+                  <div style={{
+                    backgroundColor: `${colors.sunYellow}15`,
+                    borderRadius: '16px',
+                    padding: '25px',
+                    marginTop: '30px',
+                    textAlign: 'center',
+                  }}>
+                    <p style={{
+                      fontFamily: '"Playfair Display", Georgia, serif',
+                      fontStyle: 'italic',
+                      fontSize: '1.1rem',
+                      color: colors.forestGreen,
+                      margin: 0,
+                    }}>
+                      Thank you for standing with us in prayer. 💛
+                    </p>
+                  </div>
+
                 </div>
               </div>
             )}
