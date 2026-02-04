@@ -49,6 +49,7 @@ const colors = {
 };
 
 const NicaraguaMissionDashboard = () => {
+  // eslint-disable-next-line no-unused-vars
   const [raised, setRaised] = useState(CONFIG.AMOUNT_RAISED);
   const [expandedEntries, setExpandedEntries] = useState({ entry1: true });
   const [animatedProgress, setAnimatedProgress] = useState(0);
